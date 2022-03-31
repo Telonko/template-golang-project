@@ -1,6 +1,6 @@
 .PHONY: build server
 VERSION := $(shell git describe --always |sed -e "s/^v//")
-FILE_NAME=broker
+FILE_NAME=build
 
 COLOR_YELLOW:=\033[0;33m
 COLOR_GREEN:=\033[0;32m
