@@ -1,4 +1,4 @@
-.PHONY: build server
+.PHONY: build serve
 VERSION := $(shell git describe --always |sed -e "s/^v//")
 FILE_NAME=build
 
