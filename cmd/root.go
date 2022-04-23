@@ -48,6 +48,7 @@ func initConfig() {
 
 	// display where the log was called
 	if level >= log.DebugLevel {
+		viper.SetDefault("debug", true)
 		log.SetReportCaller(true)
 	}
 }
