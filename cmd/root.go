@@ -37,18 +37,23 @@ func init() {
 }
 
 func initConfig() {
-	logLevel := viper.GetString("log-level")
-	// validation
-	level, err := log.ParseLevel(logLevel)
-	if err != nil {
-		log.Warningln("log-level", logLevel, "not exists. Setting up default 'info' level")
-		level = log.InfoLevel
-	}
-	log.SetLevel(level)
+	parseLogLevel := func() {
+		logLevel := viper.GetString("log-level")
+		// validation
+		level, err := log.ParseLevel(logLevel)
+		if err != nil {
+			log.Warningln("log-level", logLevel, "not exists. Setting up default 'info' level")
+			level = log.InfoLevel
+		}
+		log.SetLevel(level)
 
-	// display where the log was called
-	if level >= log.DebugLevel {
-		viper.SetDefault("debug", true)
-		log.SetReportCaller(true)
+		viper.SetDefault("debug", level >= log.DebugLevel)
+		// display where the log was called
+		log.SetReportCaller(level >= log.DebugLevel)
 	}
+
+	viper.OnConfigChange(func(in fsnotify.Event) {
+		parseLogLevel()
+	})
+	parseLogLevel()
 }
