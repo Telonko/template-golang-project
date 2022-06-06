@@ -8,7 +8,7 @@ COLOR_END:=\033[0m
 
 build:
 	@echo -e "$(COLOR_YELLOW)Compiling source"
-	CGO_ENABLED=0 $(GO_EXTRA_BUILD_ARGS) go build -ldflags "-s -w -X main.version=$(VERSION)" -o ${FILE_NAME}
+	GOOS=linux $(GO_EXTRA_BUILD_ARGS) go build -a -tags sqlite_omit_load_extension -ldflags "-extldflags '-static' -s -w -X main.version=$(VERSION)" -o ${FILE_NAME}
 	@echo -e "$(COLOR_END)"
 
 serve: build
